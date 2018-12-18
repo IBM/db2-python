@@ -2,57 +2,55 @@
 This repository contains Jupyter Notebooks and Python sample programs that illustrate how to use the APIs that are available in the <b>ibm_db</b> library with Db2 (formerly DB2 for Linux, UNIX, and Windows). The list of APIs available with this library are:
 
 <ul>
-  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-active.html">ibm_db.active</a> 
-
-    ibm_db.active
-    ibm_db.autocommit
-    ibm_db.bind_param
-    ibm_db.callproc
-    ibm_db.client_info
-    ibm_db.close
-    ibm_db.column_privileges
-    ibm_db.columns
-    ibm_db.commit
-    ibm_db.conn_error
-    ibm_db.conn_errormsg
-    ibm_db.connect
-    ibm_db.createdb
-    ibm_db.createdbNX
-    ibm_db.cursor_type
-    ibm_db.dropdb
-    ibm_db.exec_immediate
-    ibm_db.execute
-    ibm_db.execute_many
-    ibm_db.fetch_tuple
-    ibm_db.fetch_assoc
-    ibm_db.fetch_both
-    ibm_db.fetch_row
-    ibm_db.field_display_size
-    ibm_db.field_name
-    ibm_db.field_num
-    ibm_db.field_precision
-    ibm_db.field_scale
-    ibm_db.field_type
-    ibm_db.field_width
-    ibm_db.foreign_keys
-    ibm_db.free_result
-    ibm_db.get_option
-    ibm_db.next_result
-    ibm_db.num_fields
-    ibm_db.num_rows
-    ibm_db.pconnect
-    ibm_db.prepare
-    ibm_db.primary_keys
-    ibm_db.procedure_columns
-    ibm_db.procedures
-    ibm_db.recreatedb
-    ibm_db.result
-    ibm_db.rollback
-    ibm_db.server_info
-    ibm_db.set_option
-    ibm_db.special_columns
-    ibm_db.statistics
-    ibm_db.stmt_error
-    ibm_db.stmt_errormsg
-    ibm_db.table_privileges
-    ibm_db.tables
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-active.html">ibm_db.active</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-autocommit.html">ibm_db.autocommit</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-bind_param.html">ibm_db.bind_param</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-callproc.html">ibm_db.callproc</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-client_info.html">ibm_db.client_info</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-close.html">ibm_db.close</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-column_privileges.html">ibm_db.column_privileges</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-columns.html">ibm_db.columns</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-commit.html">ibm_db.commit</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-conn_error.html">ibm_db.conn_error</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-conn_errormsg.html">ibm_db.conn_errormsg</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-connect.html">ibm_db.connect</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-createdb.html">ibm_db.createdb</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-createdbNX.html">ibm_db.createdbNX</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-dropdb.html">ibm_db.dropdb</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-exec_immediate.html">ibm_db.exec_immediate</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-execute.html">ibm_db.execute</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-execute_many.html">ibm_db.execute_many</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-fetch_tuple.html">ibm_db.fetch_tuple</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-fetch_assoc.html">ibm_db.fetch_assoc</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-fetch_both.html">ibm_db.fetch_both</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-fetch_row.html">ibm_db.fetch_row</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-field_display_size.html">ibm_db.field_display_size</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-field_name.html">ibm_db.field_name</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-field_num.html">ibm_db.field_num</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-field_precision.html">ibm_db.field_precision</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-field_scale.html">ibm_db.field_scale</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-field_type.html">ibm_db.field_type</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-field_width.html">ibm_db.field_width</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-foreign_keys.html">ibm_db.foreign_keys</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-free_result.html">ibm_db.free_result</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-get_option.html">ibm_db.get_option</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-next_result.html">ibm_db.next_result</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-num_fields.html">ibm_db.num_fields</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-num_rows.html">ibm_db.num_rows</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-pconnect.html">ibm_db.pconnect</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-prepare.html">ibm_db.prepare</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-primary_keys.html">ibm_db.primary_keys</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-procedure_columns.html">ibm_db.procedure_columns</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-procedures.html">ibm_db.procedures</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-recreatedb.html">ibm_db.recreatedb</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-result.html">ibm_db.result</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-rollback.html">ibm_db.rollback</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-server_info.html">ibm_db.server_info</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-set_option.html">ibm_db.set_option</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-special_columns.html">ibm_db.special_columns</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-statistics.html">ibm_db.statistics</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-stmt_error.html">ibm_db.stmt_error</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-stmt_errormsg.html">ibm_db.stmt_errormsg</a>  
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-table_privileges.html">ibm_db.table_privileges</a>
+  <a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-tables.html">ibm_db.tables</a>
+</ul>
