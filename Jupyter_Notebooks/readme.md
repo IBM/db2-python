@@ -5,10 +5,15 @@ To run these Jupyter Notebooks, perform the following steps:
   <li> Start Jupyter Notebook and open a new terminal window (<b>New->Terminal</b>)</li>
   <li> Execute the following commands from the terminal window:
   <ul>
-    <li> pip install PyHamcrest</li>
-    <li> pip install --upgrade pip</li>
-    <li> python -m pip install ibm_db</li>
+    <li><b>pip install PyHamcrest</b></li>
+    <li><b>pip install --upgrade pip</b></li>
+    <li><b>python -m pip install ibm_db<b></li>
   </ul>
+  <li> Download the following files and copy them to the directory where the Jupyter Notebooks you download will be stored:
+    <ul>
+      <li><b>ibm_db_tools.py</b></li>
+      <li><b>ipynb_exit.py</b></li>
+    </ul>
 </ol>
 
 You should now be able to load any of these Jupyter Notebooks and execute the code examples presented in them.
