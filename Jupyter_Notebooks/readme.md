@@ -7,7 +7,7 @@ To run these Jupyter Notebooks, perform the following steps:
   <ul>
     <li><b>pip install PyHamcrest</b></li>
     <li><b>pip install --upgrade pip</b></li>
-    <li><b>python -m pip install ibm_db<b></li>
+    <li><b>python -m pip install ibm_db</b></li>
   </ul>
   <li> Download the following files and copy them to the directory where the Jupyter Notebooks you download will be stored:
     <ul>
