@@ -1,6 +1,9 @@
 # db2-python
 This repository contains Jupyter Notebooks and Python sample programs that illustrate how to use the APIs that are available in the <b>ibm_db</b> library with Db2 (formerly DB2 for Linux, UNIX, and Windows). The list of APIs available with this library are:
 
+<ul>
+  <a href="https://github.com/IBM/db2-python/HTML_Documentation/ibm_db-active.html">ibm_db.active</a> 
+
     ibm_db.active
     ibm_db.autocommit
     ibm_db.bind_param
