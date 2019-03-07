@@ -1,8 +1,8 @@
 #-------------------------------------------------------------------------------------------------#
 #  NAME:     ibm_db_tools.py                                                                      #
 #                                                                                                 #
-#  PURPOSE:  This file contains classes and functions that are used by many of the ibm_db and     #
-#            ibm_db_dbi sample programs.                                                          #
+#  PURPOSE:  This file contains classes and functions that are used by many of the ibm_db sample  #
+#            programs and Jupyter Notebooks.                                                      #
 #                                                                                                 #
 #            APIs used:                                                                           #
 #                 ibm_db.connect()                                                                #
@@ -11,16 +11,16 @@
 #                 ibm_db.exec_immediate()                                                         #
 #                 ibm_db.fetch_tuple()                                                            #
 #                                                                                                 #
-#  USAGE:    Add the following lines of code at the beginning of an ibm_db or ibm_db_dbi sample   #
-#            program:                                                                             #
+#  USAGE:    Add the following lines of code at the beginning of an ibm_db sample program:        #
 #                                                                                                 #
 #            from ibm_db_tools import Db2ConnectionMgr                                            #
 #            from ibm_db_tools import get_row_count                                               #
+#            from ibm_db_tools import query_sdb_dir (Use with Python sample programs only)        #
 #                                                                                                 #
 #-------------------------------------------------------------------------------------------------#
 #                      DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY                       #
 #                                                                                                 #
-#  (C) COPYRIGHT International Business Machines Corp. 2018 All Rights Reserved                   #
+#  (C) COPYRIGHT International Business Machines Corp. 2018, 2019 All Rights Reserved             #
 #  Licensed Materials - Property of IBM                                                           #
 #                                                                                                 #
 #  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP   #
