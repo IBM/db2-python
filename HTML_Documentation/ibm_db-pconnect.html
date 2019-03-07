@@ -13177,6 +13177,7 @@ div#notebook {
 <li><p><strong><em>options</em></strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: A dictionary containing key-value pairs for the attributes that are to be set before a connection is established. Valid keys for <code>IBM_DBConnection</code> objects are:<p></p>
 <ul>
 <li><code>ibm_db.SQL_ATTR_AUTOCOMMIT</code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: Specifies whether <strong>AUTOCOMMIT</strong> mode is to be used or not;  <code>ibm_db.SQL_AUTOCOMMIT_ON</code> will turn <strong>AUTOCOMMIT</strong> behavior <strong>ON</strong> and <code>ibm_db.SQL_AUTOCOMMIT_OFF</code> will turn it <strong>OFF</strong>.</li>
+<li><code>ibm_db.SQL_ATTR_CASE</code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: The case that column names will be returned in; <code>ibm_db.CASE_NATURAL</code> will cause column names to be returned in natural case, <code>ibm_db.CASE_LOWER</code> will cause them to be returned in lower case, and <code>ibm_db.CASE_UPPER</code> will cause them to be returned in upper case. <em>(This attribute can only be used with Db2 databases on OS/390 or z/OS servers.)</em>    </li>
 <li><code>ibm_db.SQL_ATTR_CURRENT_SCHEMA</code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: The name of the schema to use, by default, when performing operations that require a schema name and one is not provided.</li>
 <li><code>ibm_db.SQL_ATTR_USE_TRUSTED_CONTEXT</code>&nbsp; &nbsp;: Specifies whether the connection to a Db2 server or database is to be treated as a trusted connection;  <code>ibm_db.SQL_TRUE</code> indicates the connection can be trusted and <code>ibm_db.SQL_FALSE</code> indicates the connection should not to be treated as a trusted connection.<p></li>
 </ul>
@@ -13255,7 +13256,7 @@ div#notebook {
 <span class="c1">#----------------------------------------------------------------------------------------------#</span>
 <span class="c1">#                     DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY                     #</span>
 <span class="c1">#                                                                                              #</span>
-<span class="c1">#  (C) COPYRIGHT International Business Machines Corp. 2018 All Rights Reserved                #</span>
+<span class="c1">#  (C) COPYRIGHT International Business Machines Corp. 2018, 2019 All Rights Reserved          #</span>
 <span class="c1">#  Licensed Materials - Property of IBM                                                        #</span>
 <span class="c1">#                                                                                              #</span>
 <span class="c1">#  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA    #</span>
@@ -13487,7 +13488,7 @@ All database connections have been returned the pool of connections opened earli
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">00</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13521,7 +13522,7 @@ All database connections have been returned the pool of connections opened earli
 <span class="c1">#----------------------------------------------------------------------------------------------#</span>
 <span class="c1">#                     DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY                     #</span>
 <span class="c1">#                                                                                              #</span>
-<span class="c1">#  (C) COPYRIGHT International Business Machines Corp. 2018 All Rights Reserved                #</span>
+<span class="c1">#  (C) COPYRIGHT International Business Machines Corp. 2018, 2019 All Rights Reserved          #</span>
 <span class="c1">#  Licensed Materials - Property of IBM                                                        #</span>
 <span class="c1">#                                                                                              #</span>
 <span class="c1">#  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA    #</span>

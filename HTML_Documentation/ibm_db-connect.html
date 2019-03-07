@@ -13177,6 +13177,7 @@ div#notebook {
 <li><p><strong><em>options</em></strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: A dictionary containing key-value pairs for the attributes that are to be set before a connection is established. Valid keys for <code>IBM_DBConnection</code> objects are:<p></p>
 <ul>
 <li><code>ibm_db.SQL_ATTR_AUTOCOMMIT</code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: Specifies whether <strong>AUTOCOMMIT</strong> mode is to be used or not;  <code>ibm_db.SQL_AUTOCOMMIT_ON</code> will turn <strong>AUTOCOMMIT</strong> behavior <strong>ON</strong> and <code>ibm_db.SQL_AUTOCOMMIT_OFF</code> will turn it <strong>OFF</strong>.</li>
+<li><code>ibm_db.SQL_ATTR_CASE</code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: The case that column names will be returned in; <code>ibm_db.CASE_NATURAL</code> will cause column names to be returned in natural case, <code>ibm_db.CASE_LOWER</code> will cause them to be returned in lower case, and <code>ibm_db.CASE_UPPER</code> will cause them to be returned in upper case. <em>(This attribute can only be used with Db2 databases on OS/390 or z/OS servers.)</em></li>
 <li><code>ibm_db.SQL_ATTR_CURRENT_SCHEMA</code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: The name of the schema to use, by default, when performing operations that require a schema name and one is not provided.</li>
 <li><code>ibm_db.SQL_ATTR_USE_TRUSTED_CONTEXT</code>&nbsp; &nbsp;: Specifies whether the connection to a Db2 server or database is to be treated as a trusted connection;  <code>ibm_db.SQL_TRUE</code> indicates the connection can be trusted and <code>ibm_db.SQL_FALSE</code> indicates the connection should not to be treated as a trusted connection.<p></li>
 </ul>
@@ -13236,7 +13237,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3>&nbsp; Example 1: Connect to a remote Db2 server</h3>
+<h3>&nbsp; Example 1: Connect to a local, cataloged Db2 database</h3>
 
 </div>
 </div>
@@ -13244,154 +13245,6 @@ div#notebook {
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#----------------------------------------------------------------------------------------------#</span>
-<span class="c1">#  NAME:     ibm_db-connect_SERVER.py                                                          #</span>
-<span class="c1">#                                                                                              #</span>
-<span class="c1">#  PURPOSE:  This program is designed to illustrate how to use the ibm_db.connect() API to     #</span>
-<span class="c1">#            establish a connection to a remote Db2 server.                                    #</span>
-<span class="c1">#                                                                                              #</span>
-<span class="c1">#            Additional APIs used:                                                             #</span>
-<span class="c1">#                 ibm_db.close()                                                               #</span>
-<span class="c1">#                                                                                              #</span>
-<span class="c1">#----------------------------------------------------------------------------------------------#</span>
-<span class="c1">#                     DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY                     #</span>
-<span class="c1">#                                                                                              #</span>
-<span class="c1">#  (C) COPYRIGHT International Business Machines Corp. 2018 All Rights Reserved                #</span>
-<span class="c1">#  Licensed Materials - Property of IBM                                                        #</span>
-<span class="c1">#                                                                                              #</span>
-<span class="c1">#  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA    #</span>
-<span class="c1">#  ADP Schedule Contract with IBM Corp.                                                        #</span>
-<span class="c1">#                                                                                              #</span>
-<span class="c1">#  The following source code (&quot;Sample&quot;) is owned by International Business Machines            #</span>
-<span class="c1">#  Corporation (&quot;IBM&quot;) or one of its subsidiaries and is copyrighted and licensed, not sold.   #</span>
-<span class="c1">#  You may use, copy, modify, and distribute the Sample in any form without payment to IBM,    #</span>
-<span class="c1">#  for the purpose of assisting you in the creation of Python applications using the ibm_db    #</span>
-<span class="c1">#  library.                                                                                    #</span>
-<span class="c1">#                                                                                              #</span>
-<span class="c1">#  The Sample code is provided to you on an &quot;AS IS&quot; basis, without warranty of any kind. IBM   #</span>
-<span class="c1">#  HEREBY EXPRESSLY DISCLAIMS ALL WARRANTIES, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT    #</span>
-<span class="c1">#  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. #</span>
-<span class="c1">#  Some jurisdictions do not allow for the exclusion or limitation of implied warranties, so   #</span>
-<span class="c1">#  the above limitations or exclusions may not apply to you. IBM shall not be liable for any   #</span>
-<span class="c1">#  damages you suffer as a result of using, copying, modifying or distributing the Sample,     #</span>
-<span class="c1">#  even if IBM has been advised of the possibility of such damages.                            #</span>
-<span class="c1">#----------------------------------------------------------------------------------------------#</span>
-
-<span class="c1"># Load The Appropriate Python Modules</span>
-<span class="kn">import</span> <span class="nn">sys</span>         <span class="c1"># Provides Information About Python Interpreter Constants And Functions</span>
-<span class="kn">import</span> <span class="nn">ibm_db</span>      <span class="c1"># Contains The APIs Needed To Work With Db2 Databases</span>
-
-<span class="c1">#----------------------------------------------------------------------------------------------#</span>
-<span class="c1"># Import The ipynb_exit Class Definition, Attributes, And Methods That Have Been Defined In    #</span>
-<span class="c1"># The File Named &quot;ipynb_exit.py&quot;; This Class Contains The Programming Logic Needed To Allow    #</span>
-<span class="c1"># &quot;exit()&quot; Functionality To Work Without Raising An Error Or Stopping The Kernel If The        #</span>
-<span class="c1"># Application Is Invoked In A Jupyter Notebook                                                 #</span>
-<span class="c1">#----------------------------------------------------------------------------------------------#</span>
-<span class="kn">from</span> <span class="nn">ipynb_exit</span> <span class="k">import</span> <span class="n">exit</span>
-
-<span class="c1"># Define And Initialize The Appropriate Variables</span>
-<span class="n">hostName</span> <span class="o">=</span> <span class="s2">&quot;197.126.80.22&quot;</span>    <span class="c1"># IP Address Of Remote Server</span>
-<span class="n">portNum</span> <span class="o">=</span> <span class="s2">&quot;50000&quot;</span>             <span class="c1"># Port Number That Receives Db2 Connections On The Remote Server </span>
-<span class="n">userID</span> <span class="o">=</span> <span class="s2">&quot;db2inst2&quot;</span>           <span class="c1"># The Instance User ID At The Remote Server</span>
-<span class="n">passWord</span> <span class="o">=</span> <span class="s2">&quot;ibmdb2&quot;</span>           <span class="c1"># The Password For The Instance User ID At The Remote Server</span>
-<span class="n">connectionID</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="c1"># Display A Status Message Indicating An Attempt To Establish A Connection To A Db2 Server</span>
-<span class="c1"># Is About To Be Made</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Connecting to the </span><span class="se">\&#39;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">hostName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2"> server ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            
-<span class="c1"># Construct The String That Will Be Used To Establish A Db2 Server Connection</span>
-<span class="n">connString</span> <span class="o">=</span> <span class="s2">&quot;DRIVER={IBM DB2 ODBC DRIVER}&quot;</span>
-<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;ATTACH=TRUE&quot;</span>             <span class="c1"># Attach To A Server; Not A Database</span>
-<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;DATABASE=&quot;</span>               <span class="c1"># Ignored When Connecting To A Server</span>
-<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;HOSTNAME=&quot;</span> <span class="o">+</span> <span class="n">hostName</span>    <span class="c1"># Required To Connect To A Server</span>
-<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;PORT=&quot;</span> <span class="o">+</span> <span class="n">portNum</span>         <span class="c1"># Required To Connect To A Server</span>
-<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;PROTOCOL=TCPIP&quot;</span>          <span class="c1"># Required To Connect To A Server</span>
-<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;UID=&quot;</span> <span class="o">+</span> <span class="n">userID</span>
-<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;PWD=&quot;</span> <span class="o">+</span> <span class="n">passWord</span>
-
-<span class="c1"># Attempt To Establish A Connection To The Server Specified</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">connectionID</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connString</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-    <span class="k">pass</span>
-
-<span class="c1"># If A Db2 Server Connection Could Not Be Established, Display An Error Message And Exit</span>
-<span class="k">if</span> <span class="n">connectionID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to connect to the </span><span class="se">\&#39;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">hostName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2"> server.&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connection string used: &quot;</span> <span class="o">+</span> <span class="n">connString</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Otherwise, Complete The Status Message</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-
-<span class="c1"># Add Additional Db2 Server-Related Processing Here ...</span>
-<span class="c1"># For Example, ibm_db.createdb(), ibm_db.createdbNX(), ibm_db.recreatedb(), ibm_db.dropdb()</span>
-
-
-<span class="c1"># Attempt To Close The Db2 Server Connection That Was Just Opened</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">connectionID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Disconnecting from the </span><span class="se">\&#39;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">hostName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2"> server ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">returnCode</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">connectionID</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">pass</span>
-
-    <span class="c1"># If The Db2 Server Connection Was Not Closed, Display An Error Message And Exit</span>
-    <span class="k">if</span> <span class="n">returnCode</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to disconnect from the &quot;</span> <span class="o">+</span> <span class="n">hostName</span> <span class="o">+</span> <span class="s2">&quot; server.&quot;</span><span class="p">)</span>
-        <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># Otherwise, Complete The Status Message</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1"># Return Control To The Operating System</span>
-<span class="n">exit</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-Connecting to the &#39;197.126.80.22&#39; server ... Done!
-
-Disconnecting from the &#39;197.126.80.22&#39; server ... Done!
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3>&nbsp; Example 2: Connect to a local, cataloged Db2 database</h3>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#----------------------------------------------------------------------------------------------#</span>
@@ -13407,7 +13260,7 @@ Disconnecting from the &#39;197.126.80.22&#39; server ... Done!
 <span class="c1">#----------------------------------------------------------------------------------------------#</span>
 <span class="c1">#                     DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY                     #</span>
 <span class="c1">#                                                                                              #</span>
-<span class="c1">#  (C) COPYRIGHT International Business Machines Corp. 2018 All Rights Reserved                #</span>
+<span class="c1">#  (C) COPYRIGHT International Business Machines Corp. 2018, 2019 All Rights Reserved          #</span>
 <span class="c1">#  Licensed Materials - Property of IBM                                                        #</span>
 <span class="c1">#                                                                                              #</span>
 <span class="c1">#  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA    #</span>
@@ -13538,6 +13391,154 @@ Connecting to the &#39;SAMPLE&#39; database ... Done!
 Executing the SQL statement &#34;SELECT deptname FROM org WHERE deptnumb = &#39;50000&#39;&#34; ... Done!
 
 Disconnecting from the &#39;SAMPLE&#39; database ... Done!
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3>&nbsp; Example 2: Connect to a remote Db2 server</h3>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#----------------------------------------------------------------------------------------------#</span>
+<span class="c1">#  NAME:     ibm_db-connect_SERVER.py                                                          #</span>
+<span class="c1">#                                                                                              #</span>
+<span class="c1">#  PURPOSE:  This program is designed to illustrate how to use the ibm_db.connect() API to     #</span>
+<span class="c1">#            establish a connection to a remote Db2 server.                                    #</span>
+<span class="c1">#                                                                                              #</span>
+<span class="c1">#            Additional APIs used:                                                             #</span>
+<span class="c1">#                 ibm_db.close()                                                               #</span>
+<span class="c1">#                                                                                              #</span>
+<span class="c1">#----------------------------------------------------------------------------------------------#</span>
+<span class="c1">#                     DISCLAIMER OF WARRANTIES AND LIMITATION OF LIABILITY                     #</span>
+<span class="c1">#                                                                                              #</span>
+<span class="c1">#  (C) COPYRIGHT International Business Machines Corp. 2018, 2019 All Rights Reserved          #</span>
+<span class="c1">#  Licensed Materials - Property of IBM                                                        #</span>
+<span class="c1">#                                                                                              #</span>
+<span class="c1">#  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA    #</span>
+<span class="c1">#  ADP Schedule Contract with IBM Corp.                                                        #</span>
+<span class="c1">#                                                                                              #</span>
+<span class="c1">#  The following source code (&quot;Sample&quot;) is owned by International Business Machines            #</span>
+<span class="c1">#  Corporation (&quot;IBM&quot;) or one of its subsidiaries and is copyrighted and licensed, not sold.   #</span>
+<span class="c1">#  You may use, copy, modify, and distribute the Sample in any form without payment to IBM,    #</span>
+<span class="c1">#  for the purpose of assisting you in the creation of Python applications using the ibm_db    #</span>
+<span class="c1">#  library.                                                                                    #</span>
+<span class="c1">#                                                                                              #</span>
+<span class="c1">#  The Sample code is provided to you on an &quot;AS IS&quot; basis, without warranty of any kind. IBM   #</span>
+<span class="c1">#  HEREBY EXPRESSLY DISCLAIMS ALL WARRANTIES, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT    #</span>
+<span class="c1">#  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. #</span>
+<span class="c1">#  Some jurisdictions do not allow for the exclusion or limitation of implied warranties, so   #</span>
+<span class="c1">#  the above limitations or exclusions may not apply to you. IBM shall not be liable for any   #</span>
+<span class="c1">#  damages you suffer as a result of using, copying, modifying or distributing the Sample,     #</span>
+<span class="c1">#  even if IBM has been advised of the possibility of such damages.                            #</span>
+<span class="c1">#----------------------------------------------------------------------------------------------#</span>
+
+<span class="c1"># Load The Appropriate Python Modules</span>
+<span class="kn">import</span> <span class="nn">sys</span>         <span class="c1"># Provides Information About Python Interpreter Constants And Functions</span>
+<span class="kn">import</span> <span class="nn">ibm_db</span>      <span class="c1"># Contains The APIs Needed To Work With Db2 Databases</span>
+
+<span class="c1">#----------------------------------------------------------------------------------------------#</span>
+<span class="c1"># Import The ipynb_exit Class Definition, Attributes, And Methods That Have Been Defined In    #</span>
+<span class="c1"># The File Named &quot;ipynb_exit.py&quot;; This Class Contains The Programming Logic Needed To Allow    #</span>
+<span class="c1"># &quot;exit()&quot; Functionality To Work Without Raising An Error Or Stopping The Kernel If The        #</span>
+<span class="c1"># Application Is Invoked In A Jupyter Notebook                                                 #</span>
+<span class="c1">#----------------------------------------------------------------------------------------------#</span>
+<span class="kn">from</span> <span class="nn">ipynb_exit</span> <span class="k">import</span> <span class="n">exit</span>
+
+<span class="c1"># Define And Initialize The Appropriate Variables</span>
+<span class="n">hostName</span> <span class="o">=</span> <span class="s2">&quot;197.126.80.22&quot;</span>    <span class="c1"># IP Address Of Remote Server</span>
+<span class="n">portNum</span> <span class="o">=</span> <span class="s2">&quot;50000&quot;</span>             <span class="c1"># Port Number That Receives Db2 Connections On The Remote Server </span>
+<span class="n">userID</span> <span class="o">=</span> <span class="s2">&quot;db2inst2&quot;</span>           <span class="c1"># The Instance User ID At The Remote Server</span>
+<span class="n">passWord</span> <span class="o">=</span> <span class="s2">&quot;ibmdb2&quot;</span>           <span class="c1"># The Password For The Instance User ID At The Remote Server</span>
+<span class="n">connectionID</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Display A Status Message Indicating An Attempt To Establish A Connection To A Db2 Server</span>
+<span class="c1"># Is About To Be Made</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Connecting to the </span><span class="se">\&#39;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">hostName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2"> server ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            
+<span class="c1"># Construct The String That Will Be Used To Establish A Db2 Server Connection</span>
+<span class="n">connString</span> <span class="o">=</span> <span class="s2">&quot;DRIVER={IBM DB2 ODBC DRIVER}&quot;</span>
+<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;ATTACH=TRUE&quot;</span>             <span class="c1"># Attach To A Server; Not A Database</span>
+<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;DATABASE=&quot;</span>               <span class="c1"># Ignored When Connecting To A Server</span>
+<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;HOSTNAME=&quot;</span> <span class="o">+</span> <span class="n">hostName</span>    <span class="c1"># Required To Connect To A Server</span>
+<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;PORT=&quot;</span> <span class="o">+</span> <span class="n">portNum</span>         <span class="c1"># Required To Connect To A Server</span>
+<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;PROTOCOL=TCPIP&quot;</span>          <span class="c1"># Required To Connect To A Server</span>
+<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;UID=&quot;</span> <span class="o">+</span> <span class="n">userID</span>
+<span class="n">connString</span> <span class="o">+=</span> <span class="s2">&quot;;PWD=&quot;</span> <span class="o">+</span> <span class="n">passWord</span>
+
+<span class="c1"># Attempt To Establish A Connection To The Server Specified</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">connectionID</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connString</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c1"># If A Db2 Server Connection Could Not Be Established, Display An Error Message And Exit</span>
+<span class="k">if</span> <span class="n">connectionID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to connect to the </span><span class="se">\&#39;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">hostName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2"> server.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connection string used: &quot;</span> <span class="o">+</span> <span class="n">connString</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Otherwise, Complete The Status Message</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Add Additional Db2 Server-Related Processing Here ...</span>
+<span class="c1"># For Example, ibm_db.createdb(), ibm_db.createdbNX(), ibm_db.recreatedb(), ibm_db.dropdb()</span>
+
+
+<span class="c1"># Attempt To Close The Db2 Server Connection That Was Just Opened</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">connectionID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Disconnecting from the </span><span class="se">\&#39;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">hostName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2"> server ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">returnCode</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">connectionID</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># If The Db2 Server Connection Was Not Closed, Display An Error Message And Exit</span>
+    <span class="k">if</span> <span class="n">returnCode</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to disconnect from the &quot;</span> <span class="o">+</span> <span class="n">hostName</span> <span class="o">+</span> <span class="s2">&quot; server.&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Otherwise, Complete The Status Message</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Return Control To The Operating System</span>
+<span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Connecting to the &#39;197.126.80.22&#39; server ... Done!
+
+Disconnecting from the &#39;197.126.80.22&#39; server ... Done!
 
 </pre>
 </div>
