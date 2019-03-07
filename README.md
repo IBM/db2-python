@@ -1,5 +1,5 @@
 # db2-python
-This repository contains Jupyter Notebooks and Python sample programs that illustrate how to use the APIs that are available in the <b>ibm_db</b> library with Db2 (formerly DB2 for Linux, UNIX, and Windows). The list of APIs available with this library are:
+This repository contains Jupyter Notebooks and Python sample programs that illustrate how to use the APIs that are available in the <b>ibm_db</b> and <b>ibm_db_dbi</b> library with Db2. The list of APIs available with the <b>ibm_db</b> library are:
 
 <ul>
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-active.html">ibm_db.active</a></li>
@@ -54,3 +54,5 @@ This repository contains Jupyter Notebooks and Python sample programs that illus
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-table_privileges.html">ibm_db.table_privileges</a></li>
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-tables.html">ibm_db.tables</a></li>
 </ul>
+
+For information on how to use the APIs and functions in the <b>ibm_db_dbi</b> library, refer to the <a href="http://www.python.org/dev/peps/pep-0249/">PEP 249 -- Python Database API Specification v2.0</a>. 
