@@ -16,6 +16,7 @@ This repository contains Jupyter Notebooks and Python sample programs that illus
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-connect.html">ibm_db.connect</a></li>
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-createdb.html">ibm_db.createdb</a></li>
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-createdbNX.html">ibm_db.createdbNX</a></li>
+  <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-cursor_type.html">ibm_db.cursor_type</a></li>
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-dropdb.html">ibm_db.dropdb</a></li>
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-exec_immediate.html">ibm_db.exec_immediate</a></li>
   <li><a href="http://htmlpreview.github.io/?https://github.com/IBM/db2-python/blob/master/HTML_Documentation/ibm_db-execute.html">ibm_db.execute</a></li>
