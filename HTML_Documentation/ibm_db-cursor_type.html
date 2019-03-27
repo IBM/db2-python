@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>ibm_db-stmt_error</title>
+<title>ibm_db-cursor_type</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13116,7 +13116,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="ibm_db.stmt_error()">ibm_db.stmt_error()<a class="anchor-link" href="#ibm_db.stmt_error()">&#182;</a></h1>
+<h1 id="ibm_db.cursor_type()">ibm_db.cursor_type()<a class="anchor-link" href="#ibm_db.cursor_type()">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -13130,7 +13130,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Return an SQLSTATE value associated with an <code>IBM_DBStatement</code> object.</p>
+<p>Retrieve information about the type of cursor currently being used.</p>
 
 </div>
 </div>
@@ -13145,7 +13145,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>string ibm_db.stmt_error( [ IBM_DBStatement</code><em><code>statement</code></em><code>] )</code></p>
+<p><code>int ibm_db.cursor_type( IBM_DBStatement</code><em><code>statement</code></em><code>)</code></p>
 
 </div>
 </div>
@@ -13177,22 +13177,18 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When a <strong><em>statement</em></strong> value <u>is</u> provided:</p>
 <ul>
-<li>If there is an <strong>error</strong> associated with the <code>IBM_DBStatement</code> object specified, a string containing an SQLSTATE value that explains why the last operation using the <code>IBM_DBStatement</code> object failed.</li>
-<li>If there is <strong>no error</strong> associated with the <code>IBM_DBStatement</code> object specified, an empty string (<code>''</code>).</li>
+<li><p>If <strong>successful</strong>, one of the following values:<p></p>
+<ul>
+<li><code>0</code> or <code>ibm_db.SQL_CURSOR_FORWARD_ONLY</code> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: A forward only cursor is being used.</li>
+<li><code>1</code> or <code>ibm_db. SQL_CURSOR_KEYSET_DRIVEN</code>&nbsp; &nbsp; &nbsp; : A keyset-driven cursor is being used.</li>
+<li><code>2</code> or <code>ibm_db.SQL_CURSOR_DYNAMIC</code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : A dynamic, scrollable cursor is being used. Dynamic cursors are only supported by Db2 for z/OS servers.    </li>
+<li><code>3</code> or <code>ibm_db.SQL_CURSOR_STATIC</code>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : A static cursor is being used.</li>
 </ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>When a <strong><em>statement</em></strong> value <u>is not</u> provided:</p>
+</li>
+</ul>
 <ul>
-<li>If there is an <strong>error</strong> associated with the last attempt to return an <code>IBM_DBStatement</code> object from an <strong>ibm_db.prepare()</strong>, <strong>ibm_db.exec_immediate()</strong>, or <strong>ibm_db.callproc()</strong> API, a string containing an SQLSTATE value that explains why the API failed.</li>
-<li>If there is <strong>no error</strong> associated with the last attempt to return an <code>IBM_DBStatement</code> object, an empty string (<code>''</code>).</li>
+<li>If <strong>unsuccessful</strong>, a Python interpreter error.</li>
 </ul>
 
 </div>
@@ -13208,7 +13204,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <strong>ibm_db.stmt_error()</strong> API can be used to return an SQLSTATE value that explains why an attempt to return an <code>IBM_DBStatement</code> object from an <strong>ibm_db.prepare()</strong>, <strong>ibm_db.exec_immediate()</strong>, or <strong>ibm_db.callproc()</strong> API call was not successful. It can also be used to return an SQLSTATE value that identifies why the last operation using a <code>IBM_DBStatement</code> object failed.</p>
+<p>The <strong>ibm_db.cursor_type()</strong> API is used to retrieve information about the type of cursor currently being used. This API can be used in place of the <strong>ibm_db.get_option()</strong> API to determine if you are working with a forward-only cursor or a scrollable cursor.</p>
+<p>It's important to note that if a cursor type that is not supported was specified with the <strong>ibm_db.prepare()</strong>, <strong>ibm_db.exec_immediate()</strong>, or <strong>ibm_db.set_option()</strong> API, that cursor type is substituteed with a different cursor type; for a mixed or dynamic cursor, <strong>ibm_db</strong> substitutes, in order, a keyset-driven cursor or a static cursor.</p>
 
 </div>
 </div>
@@ -13226,11 +13223,13 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#----------------------------------------------------------------------------------------------#</span>
-<span class="c1">#  NAME:     ibm_db-stmt_error.py                                                              #</span>
+<span class="c1">#  NAME:     ibm_db-cursor_type.py                                                             #</span>
 <span class="c1">#                                                                                              #</span>
-<span class="c1">#  PURPOSE:  This program is designed to illustrate how to use the ibm_db.stmt_error() API.    #</span>
+<span class="c1">#  PURPOSE:  This program is designed to illustrate how to use the ibm_db.cursor_type() API    #</span>
+<span class="c1">#            to determine the type of cursor being used.                                       #</span>
 <span class="c1">#                                                                                              #</span>
 <span class="c1">#            Additional APIs used:                                                             #</span>
+<span class="c1">#                 ibm_db.set_option()                                                          #</span>
 <span class="c1">#                 ibm_db.exec_immediate()                                                      #</span>
 <span class="c1">#                                                                                              #</span>
 <span class="c1">#----------------------------------------------------------------------------------------------#</span>
@@ -13281,8 +13280,8 @@ div#notebook {
 <span class="n">userID</span> <span class="o">=</span> <span class="s2">&quot;db2inst1&quot;</span>
 <span class="n">passWord</span> <span class="o">=</span> <span class="s2">&quot;Passw0rd&quot;</span>
 <span class="n">dbConnection</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">sqlStatement</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>           <span class="c1"># An Empty SQL Statement Is Used To Force An Error To Occur</span>
 <span class="n">resultSet</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">cursorType</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="c1"># Create An Instance Of The Db2ConnectionMgr Class And Use It To Connect To A Db2 Database</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">Db2ConnectionMgr</span><span class="p">(</span><span class="s1">&#39;DB&#39;</span><span class="p">,</span> <span class="n">dbName</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">userID</span><span class="p">,</span> <span class="n">passWord</span><span class="p">)</span>
@@ -13293,24 +13292,114 @@ div#notebook {
     <span class="n">conn</span><span class="o">.</span><span class="n">closeConnection</span><span class="p">()</span>
     <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># Execute The SQL Statement Specified</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Executing the SQL statement specified ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="c1"># Define The SQL Statement That Is To Be Executed</span>
+<span class="n">sqlStatement</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM department&quot;</span>
+
+<span class="c1"># Create A Dictionary That Contains The Value Needed To Specify That A Forward Only Cursor</span>
+<span class="c1"># Should Be Used</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting cursor type to SQL_CURSOR_FORWARD_ONLY</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">stmtOption</span> <span class="o">=</span> <span class="p">{</span><span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_ATTR_CURSOR_TYPE</span><span class="p">:</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_FORWARD_ONLY</span><span class="p">}</span>
+
+<span class="c1"># Execute The SQL Statement Just Defined</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Executing the SQL statement </span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">sqlStatement</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2"> ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">resultSet</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">exec_immediate</span><span class="p">(</span><span class="n">dbConnection</span><span class="p">,</span> <span class="n">sqlStatement</span><span class="p">)</span>
+    <span class="n">resultSet</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">exec_immediate</span><span class="p">(</span><span class="n">dbConnection</span><span class="p">,</span> <span class="n">sqlStatement</span><span class="p">,</span> <span class="n">stmtOption</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
     <span class="k">pass</span>
 
 <span class="c1"># If The SQL Statement Could Not Be Executed, Display An Error Message And Exit </span>
 <span class="k">if</span> <span class="n">resultSet</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to execute the SQL statement.&quot;</span><span class="p">)</span>
-    <span class="n">errorCode</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">stmt_error</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">SQLSTATE: &quot;</span><span class="o">+</span> <span class="n">errorCode</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to execute the SQL statement specified.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">conn</span><span class="o">.</span><span class="n">closeConnection</span><span class="p">()</span>
     <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Otherwise, Complete The Status Message</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verify That The Type Of Cursor Being Used Is Type Of Cursor That Was Specified</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Obtaining information about the type of cursor being used ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">cursorType</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">cursor_type</span><span class="p">(</span><span class="n">resultSet</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c1"># If Information About The Cursor Could Not Be Obtained, Display An Error Message And Exit </span>
+<span class="k">if</span> <span class="n">cursorType</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to obtain the information desired.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">closeConnection</span><span class="p">()</span>
+    <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Otherwise, Complete The Status Message</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verify That The Type Of Cursor Being Used Is Type Of Cursor That Was Specified</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Type of cursor being used: &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">cursorType</span> <span class="o">==</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_FORWARD_ONLY</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Forward only (SQL_CURSOR_FORWARD_ONLY)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">cursorType</span> <span class="o">==</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_KEYSET_DRIVEN</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Keyset driven (SQL_CURSOR_KEYSET_DRIVEN)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">cursorType</span> <span class="o">==</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_DYNAMIC</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dynamic (SQL_CURSOR_DYNAMIC)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">cursorType</span> <span class="o">==</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_STATIC</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Static (SQL_CURSOR_STATIC)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unknown</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create A Dictionary That Contains The Value Needed To Specify That A Keyset-Driven Cursor</span>
+<span class="c1"># Should Be Used</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Setting cursor type to SQL_CURSOR_KEYSET_DRIVEN</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">stmtOption</span> <span class="o">=</span> <span class="p">{</span><span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_ATTR_CURSOR_TYPE</span><span class="p">:</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_KEYSET_DRIVEN</span><span class="p">}</span>
+
+<span class="c1"># Execute The SQL Statement Defined Earlier</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Executing the SQL statement </span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">sqlStatement</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2"> ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">resultSet</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">exec_immediate</span><span class="p">(</span><span class="n">dbConnection</span><span class="p">,</span> <span class="n">sqlStatement</span><span class="p">,</span> <span class="n">stmtOption</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c1"># If The SQL Statement Could Not Be Executed, Display An Error Message And Exit </span>
+<span class="k">if</span> <span class="n">resultSet</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to execute the SQL statement specified.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">closeConnection</span><span class="p">()</span>
+    <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Otherwise, Complete The Status Message</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verify That The Type Of Cursor Being Used Is Type Of Cursor That Was Specified</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Obtaining information about the type of cursor being used ... &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">cursorType</span> <span class="o">=</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">cursor_type</span><span class="p">(</span><span class="n">resultSet</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c1"># If Information About The Cursor Could Not Be Obtained, Display An Error Message And Exit </span>
+<span class="k">if</span> <span class="n">cursorType</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ERROR: Unable to obtain the information desired.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">closeConnection</span><span class="p">()</span>
+    <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Otherwise, Complete The Status Message</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verify That The Type Of Cursor Being Used Is Type Of Cursor That Was Specified</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Type of cursor being used: &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">cursorType</span> <span class="o">==</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_FORWARD_ONLY</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Forward only (SQL_CURSOR_FORWARD_ONLY)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">cursorType</span> <span class="o">==</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_KEYSET_DRIVEN</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Keyset driven (SQL_CURSOR_KEYSET_DRIVEN)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">cursorType</span> <span class="o">==</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_DYNAMIC</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dynamic (SQL_CURSOR_DYNAMIC)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">cursorType</span> <span class="o">==</span> <span class="n">ibm_db</span><span class="o">.</span><span class="n">SQL_CURSOR_STATIC</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Static (SQL_CURSOR_STATIC)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unknown</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># Close The Database Connection That Was Opened Earlier</span>
 <span class="n">conn</span><span class="o">.</span><span class="n">closeConnection</span><span class="p">()</span>
@@ -13336,10 +13425,22 @@ div#notebook {
 <pre>
 Connecting to the SAMPLE database ... Done!
 
-Executing the SQL statement specified ... 
-ERROR: Unable to execute the SQL statement.
+Setting cursor type to SQL_CURSOR_FORWARD_ONLY
 
-SQLSTATE: 42617
+Executing the SQL statement &#34;SELECT * FROM department&#34; ... Done!
+
+Obtaining information about the type of cursor being used ... Done!
+
+Type of cursor being used: Forward only (SQL_CURSOR_FORWARD_ONLY)
+
+
+Setting cursor type to SQL_CURSOR_KEYSET_DRIVEN
+
+Executing the SQL statement &#34;SELECT * FROM department&#34; ... Done!
+
+Obtaining information about the type of cursor being used ... Done!
+
+Type of cursor being used: Keyset driven (SQL_CURSOR_KEYSET_DRIVEN)
 
 Disconnecting from the SAMPLE database ... Done!
 
@@ -13347,33 +13448,6 @@ Disconnecting from the SAMPLE database ... Done!
 </div>
 </div>
 
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-An exception has occurred, use %tb to see the full traceback.
-
-<span class="ansi-red-fg">ipynb_Exit</span>
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
 </div>
 </div>
 
